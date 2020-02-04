@@ -7,7 +7,6 @@ import org.jsoup.select.Elements;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
@@ -21,8 +20,8 @@ public class WeatherTypeParser implements DataParser {
 
         model.forEachByHours((hourWeather, idx) -> {
             Element img = elements.get(idx).child(0);
-            Matcher matcher = imgIdxPattern.matcher(img.attr("src"));
-            WeatherType weatherType = WeatherType.UNKNOWN;
+            var matcher = imgIdxPattern.matcher(img.attr("src"));
+            var weatherType = WeatherType.UNKNOWN;
 
             if (matcher.find()) {
                 int imgId = Integer.valueOf(matcher.group(1));

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PreDestroy;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,7 +31,7 @@ public class WindyWeatherParser {
     public WindyWeatherParser(@Value("${web-driver.path}") String webDriverPath,
                               List<DataParser> dataParsers) {
         System.setProperty("webdriver.gecko.driver", webDriverPath);
-        FirefoxOptions firefoxOptions = new FirefoxOptions();
+        var firefoxOptions = new FirefoxOptions();
         firefoxOptions.setHeadless(true);
 
         this.driver = new FirefoxDriver(firefoxOptions);
@@ -44,7 +45,7 @@ public class WindyWeatherParser {
     }
 
     public List<WeatherModel> getWeatherModels(float latitude, float longitude) {
-        String url = String.format(Locale.US, "https://www.windy.com/multimodel/%f/%f?%1$f,%2$f,10", latitude, longitude);
+        var url = String.format(Locale.US, "https://www.windy.com/multimodel/%f/%f?%1$f,%2$f,10", latitude, longitude);
 
         driver.get(url);
         driverWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".model-box > .forecast-table")));
@@ -52,13 +53,13 @@ public class WindyWeatherParser {
         Document doc = Jsoup.parse(driver.getPageSource());
         Elements elements = doc.select(".model-box > .forecast-table");
 
-        List<WeatherModel> result = Lists.newArrayList();
+        var result = new ArrayList<WeatherModel>();
 
         elements.forEach(el -> {
-            WeatherModel model = new WeatherModel();
+            var model = new WeatherModel();
 
             el.select(".td-days td").forEach(tdDay -> {
-                LocalDate date = LocalDate.parse(tdDay.attr("data-day"));
+                var date = LocalDate.parse(tdDay.attr("data-day"));
                 model.getDays().add(new DayWeather(date));
             });
 

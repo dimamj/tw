@@ -17,7 +17,7 @@ public class PrecipitationParser implements DataParser {
         model.forEachByHours((hourWeather, idx) -> {
             String text = elements.get(idx).text();
             if (!StringUtils.isEmpty(text)) {
-                hourWeather.setPrecipitationInCm(Float.valueOf(text));
+                hourWeather.setPrecipitationInCm(Float.valueOf(text.replaceAll("[^\\d.]", "")));
             }
         });
     }

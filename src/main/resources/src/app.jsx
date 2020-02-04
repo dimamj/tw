@@ -1,5 +1,5 @@
 import './sass/main.sass';
 import ReactDom from 'react-dom';
-import Test from './test';
+import PageBody from "./page-body";
 
-ReactDom.render(<Test text='Whew'/>, document.getElementById('app-container'));
+ReactDom.render(<PageBody/>, document.getElementById('app-container'));
